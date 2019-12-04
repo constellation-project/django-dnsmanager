@@ -84,13 +84,15 @@ class CNAME(Record):
         return f"{self.dns_class} CNAME {self.c_name}"
 
     def save(self, *args, **kwargs):
-        if Record.objects.filter(zone=self.zone, clas=self.clas, name=self.name):
+        cnames = Record.objects.filter(zone=self.zone, dns_class=self.dns_class, name=self.name)
+        if cnames and any(cname.pk == self.pk for cname in cnames):
             return
         super().save(*args, **kwargs)
 
     def clean(self):
         super().clean()
-        if Record.objects.filter(zone=self.zone, clas=self.clas, name=self.name):
+        cnames = Record.objects.filter(zone=self.zone, dns_class=self.dns_class, name=self.name)
+        if cnames and any(cname.pk == self.pk for cname in cnames):
             raise ValidationError(
                 _("A CNAME must be the only record for a name."))
 
