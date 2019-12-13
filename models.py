@@ -13,6 +13,9 @@ class Zone(models.Model):
     )
 
     def __str__(self):
+        """
+        String for autocompletion results and zone admin column
+        """
         return self.name
 
     class Meta:
@@ -46,6 +49,7 @@ class Record(PolymorphicModel):
     )
     ttl = models.PositiveIntegerField(
         null=True,
+        default=3600,
         verbose_name=_("Time To Live"),
         help_text=_("Limits the lifetime of this record."),
     )
@@ -62,7 +66,7 @@ class A(Record):
     )
 
     def __str__(self):
-        return f"{self.dns_class} A {self.address}"
+        return f"{self.ttl} {self.dns_class} A {self.address}"
 
     class Meta:
         verbose_name = _("A record")
@@ -78,20 +82,25 @@ class NS(Record):
 
 
 class CNAME(Record):
-    c_name = DomainNameField(verbose_name=_("canonical name"))
+    c_name = DomainNameField(
+        verbose_name=_("canonical name"),
+        help_text=_('This domain name will alias to this canonical name.'),
+    )
 
     def __str__(self):
-        return f"{self.dns_class} CNAME {self.c_name}"
+        return f"{self.ttl} {self.dns_class} CNAME {self.c_name}"
 
     def save(self, *args, **kwargs):
-        cnames = Record.objects.filter(zone=self.zone, dns_class=self.dns_class, name=self.name)
+        cnames = Record.objects.filter(
+            zone=self.zone, dns_class=self.dns_class, name=self.name)
         if cnames and any(cname.pk == self.pk for cname in cnames):
             return
         super().save(*args, **kwargs)
 
     def clean(self):
         super().clean()
-        cnames = Record.objects.filter(zone=self.zone, dns_class=self.dns_class, name=self.name)
+        cnames = Record.objects.filter(
+            zone=self.zone, dns_class=self.dns_class, name=self.name)
         if cnames and any(cname.pk == self.pk for cname in cnames):
             raise ValidationError(
                 _("A CNAME must be the only record for a name."))
@@ -116,7 +125,7 @@ class SOA(Record):
 
     def __str__(self):
         rname = self.email_to_rname(),
-        return f"{self.dns_class} SOA {self.mname} {rname} {self.serial} {self.refresh} {self.retry} {self.expire} {self.minimum}"
+        return f"{self.ttl} {self.dns_class} SOA {self.mname} {rname} {self.serial} {self.refresh} {self.retry} {self.expire} {self.minimum}"
 
     class Meta:
         verbose_name = _("SOA record")
@@ -127,7 +136,7 @@ class PTR(Record):
     ptrdname = DomainNameField(verbose_name=_("pointer domain name"))
 
     def __str__(self):
-        return f"{self.dns_class} PTR {self.ptrdname}"
+        return f"{self.ttl} {self.dns_class} PTR {self.ptrdname}"
 
     class Meta:
         verbose_name = _("PTR record")
@@ -139,7 +148,7 @@ class MX(Record):
     exchange = DomainNameField(verbose_name=_("exchange server"))
 
     def __str__(self):
-        return f"{self.dns_class} MX {self.preference} {self.exchange}"
+        return f"{self.ttl} {self.dns_class} MX {self.preference} {self.exchange}"
 
     class Meta:
         verbose_name = _("MX record")
@@ -153,7 +162,7 @@ class AAAA(Record):
     )
 
     def __str__(self):
-        return f"{self.dns_class} AAAA {self.address}"
+        return f"{self.ttl} {self.dns_class} AAAA {self.address}"
 
     class Meta:
         verbose_name = _("AAAA record")
@@ -164,7 +173,7 @@ class TXT(Record):
     data = models.TextField()
 
     def __str__(self):
-        return f"{self.dns_class} TXT {self.data!r}"
+        return f"{self.ttl} {self.dns_class} TXT {self.data!r}"
 
     class Meta:
         verbose_name = _("TXT record")
@@ -178,7 +187,7 @@ class SRV(Record):
     target = DomainNameField()
 
     def __str__(self):
-        return f"{self.dns_class} SRV {self.priority} {self.weight} {self.port} {self.target}"
+        return f"{self.ttl} {self.dns_class} SRV {self.priority} {self.weight} {self.port} {self.target}"
 
     class Meta:
         verbose_name = _("SRV record")
