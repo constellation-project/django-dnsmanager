@@ -39,6 +39,7 @@ class Record(PolymorphicModel):
     )
     name = RecordNameField(
         verbose_name=_("name"),
+        blank=True,
     )
     dns_class = models.CharField(
         max_length=2,
@@ -66,7 +67,11 @@ class A(Record):
     )
 
     def __str__(self):
-        return f"{self.ttl} {self.dns_class} A {self.address}"
+        if self.name:
+            return (f"{self.name}.{self.zone} {self.ttl} {self.dns_class} A "
+                    f"{self.address}")
+        else:
+            return f"{self.zone} {self.ttl} {self.dns_class} A {self.address}"
 
     class Meta:
         verbose_name = _("A record")
@@ -75,6 +80,9 @@ class A(Record):
 
 class NS(Record):
     nsdname = DomainNameField(verbose_name=_("name server"))
+
+    def __str__(self):
+        return f"{self.zone} {self.ttl} {self.dns_class} NS {self.nsdname}"
 
     class Meta:
         verbose_name = _("NS record")
@@ -88,7 +96,8 @@ class CNAME(Record):
     )
 
     def __str__(self):
-        return f"{self.ttl} {self.dns_class} CNAME {self.c_name}"
+        return (f"{self.name}.{self.zone} {self.ttl} {self.dns_class} CNAME "
+                f"{self.c_name}")
 
     def save(self, *args, **kwargs):
         cnames = Record.objects.filter(
@@ -120,12 +129,18 @@ class SOA(Record):
     minimum = models.BigIntegerField()
 
     def email_to_rname(self):
+        """
+        Convert email format to domain name format
+        e.g. root@crans.org to root.crans.org
+        """
         rname = self.rname.split('@')
         return rname[0].replace('.', '\\.') + '.' + rname[1]
 
     def __str__(self):
-        rname = self.email_to_rname(),
-        return f"{self.ttl} {self.dns_class} SOA {self.mname} {rname} {self.serial} {self.refresh} {self.retry} {self.expire} {self.minimum}"
+        rname = self.email_to_rname()
+        return (f"{self.zone} {self.ttl} {self.dns_class} SOA {self.mname} "
+                f"{rname} {self.serial} {self.refresh} {self.retry} "
+                f"{self.expire} {self.minimum}")
 
     class Meta:
         verbose_name = _("SOA record")
@@ -148,7 +163,8 @@ class MX(Record):
     exchange = DomainNameField(verbose_name=_("exchange server"))
 
     def __str__(self):
-        return f"{self.ttl} {self.dns_class} MX {self.preference} {self.exchange}"
+        return (f"{self.zone} {self.ttl} {self.dns_class} MX {self.preference}"
+                f" {self.exchange}")
 
     class Meta:
         verbose_name = _("MX record")
@@ -162,7 +178,12 @@ class AAAA(Record):
     )
 
     def __str__(self):
-        return f"{self.ttl} {self.dns_class} AAAA {self.address}"
+        if self.name:
+            return (f"{self.name}.{self.zone} {self.ttl} {self.dns_class} AAAA"
+                    f" {self.address}")
+        else:
+            return (f"{self.zone} {self.ttl} {self.dns_class} AAAA"
+                    f" {self.address}")
 
     class Meta:
         verbose_name = _("AAAA record")
@@ -187,7 +208,8 @@ class SRV(Record):
     target = DomainNameField()
 
     def __str__(self):
-        return f"{self.ttl} {self.dns_class} SRV {self.priority} {self.weight} {self.port} {self.target}"
+        return (f"{self.ttl} {self.dns_class} SRV {self.priority} "
+                f"{self.weight} {self.port} {self.target}")
 
     class Meta:
         verbose_name = _("SRV record")
