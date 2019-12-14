@@ -2,6 +2,6 @@ from django.apps import AppConfig
 from django.utils.translation import gettext_lazy as _
 
 
-class DnsConfig(AppConfig):
-    name = "dns"
+class DnsManagerConfig(AppConfig):
+    name = "dnsmanager"
     verbose_name = _("domain name system")

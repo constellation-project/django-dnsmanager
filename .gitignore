@@ -1,0 +1,32 @@
+# Byte-compiled / optimized / DLL files
+dist
+build
+__pycache__
+*.py[cod]
+*$py.class
+*.swp
+*.egg-info
+_build
+.tox
+.coverage
+coverage
+
+# Translations
+*.mo
+*.pot
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# PyCharm project settings
+.idea
+
+# Virtualenv
+venv/

@@ -1,0 +1,35 @@
+# https://travis-ci.org/django-polymorphic/django-polymorphic
+dist: xenial
+sudo: false
+language: python
+
+matrix:
+  fast_finish: true
+  include:
+    # Django 1.11: Python 3.6
+    - { env: TOXENV=py36-django111, python: 3.6 }
+    # Django 2.2: Python 3.6, or 3.7
+    - { env: TOXENV=py36-django22, python: 3.6 }
+    - { env: TOXENV=py37-django22, python: 3.7 }
+    # Lint: Python 3.6
+    - { env: TOXENV=linters, python: 3.6 }
+
+cache:
+  directories:
+    - $HOME/.cache/pip
+    - $TRAVIS_BUILD_DIR/.tox
+
+install:
+  - pip install --upgrade pip wheel setuptools
+  - pip install codecov coverage tox
+
+script:
+  - tox
+
+after_success:
+  - coverage xml -i
+  - codecov
+
+branches:
+  only:
+    - master
