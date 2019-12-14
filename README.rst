@@ -1,7 +1,10 @@
+.. image::  https://travis-ci.com/erdnaxe/django-dnsmanager.svg?branch=master
+    :target: http://travis-ci.com/erdnaxe/django-dnsmanager
+.. image:: https://img.shields.io/codecov/c/github/erdnaxe/django-dnsmanager/master.svg
+    :target: https://codecov.io/github/erdnaxe/django-dnsmanager?branch=master
+
 Django DNS manager
 ==================
-
-|License: GPL v3|
 
 This is a DNS manager Django app.
 
@@ -21,6 +24,3 @@ License
 
 Django-dnsmanager uses the same license as Django (BSD-like)
 because we believe in open development. Please see LICENSE file for more details.
-
-.. |License: GPL v3| image:: https://img.shields.io/badge/License-GPL%20v3-blue.svg
-   :target: https://www.gnu.org/licenses/gpl-3.0.en.html
