@@ -3,8 +3,7 @@ from django.urls import resolve
 from polymorphic.admin import PolymorphicChildModelAdmin, \
     PolymorphicChildModelFilter, PolymorphicParentModelAdmin
 
-from .models import Zone, Record, \
-    A, NS, CNAME, SOA, PTR, MX, AAAA, TXT, SRV
+from .models import A, AAAA, CNAME, MX, NS, PTR, Record, SOA, SRV, TXT, Zone
 
 
 @admin.register(Zone)

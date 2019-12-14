@@ -3,7 +3,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from polymorphic.models import PolymorphicModel
 
-from .fields import RecordNameField, DomainNameField
+from .fields import DomainNameField, RecordNameField
 
 
 class Zone(models.Model):

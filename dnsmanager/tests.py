@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from .models import A, AAAA, CNAME, NS, MX, SOA, Zone
+from .models import A, AAAA, CNAME, MX, NS, SOA, Zone
 
 """
 Test DNS app against some records from Cr@ns.
