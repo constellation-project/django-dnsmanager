@@ -70,11 +70,7 @@ class AddressRecord(Record):
     )
 
     def __str__(self):
-        if self.name:
-            return (f"{self.name}.{self.zone} {self.ttl} {self.dns_class} A "
-                    f"{self.address}")
-        else:
-            return f"{self.zone} {self.ttl} {self.dns_class} A {self.address}"
+        return f"{self.name} {self.ttl} {self.dns_class} A {self.address}"
 
     class Meta:
         verbose_name = _("A record")
@@ -88,12 +84,7 @@ class Ipv6AddressRecord(Record):
     )
 
     def __str__(self):
-        if self.name:
-            return (f"{self.name}.{self.zone} {self.ttl} {self.dns_class} AAAA"
-                    f" {self.address}")
-        else:
-            return (f"{self.zone} {self.ttl} {self.dns_class} AAAA"
-                    f" {self.address}")
+        return f"{self.name} {self.ttl} {self.dns_class} AAAA {self.address}"
 
     class Meta:
         verbose_name = _("AAAA record")
@@ -107,8 +98,7 @@ class CanonicalNameRecord(Record):
     )
 
     def __str__(self):
-        return (f"{self.name}.{self.zone} {self.ttl} {self.dns_class} CNAME "
-                f"{self.c_name}")
+        return f"{self.name} {self.ttl} {self.dns_class} CNAME {self.c_name}"
 
     def save(self, *args, **kwargs):
         cnames = Record.objects.filter(
@@ -145,8 +135,8 @@ class MailExchangeRecord(Record):
     )
 
     def __str__(self):
-        return (f"{self.zone} {self.ttl} {self.dns_class} MX {self.preference}"
-                f" {self.exchange}")
+        return (f"{self.name} {self.ttl} {self.dns_class} MX {self.preference} "
+                f"{self.exchange}")
 
     class Meta:
         verbose_name = _("MX record")
@@ -161,7 +151,7 @@ class NameServerRecord(Record):
     )
 
     def __str__(self):
-        return f"{self.zone} {self.ttl} {self.dns_class} NS {self.nsdname}"
+        return f"{self.name} {self.ttl} {self.dns_class} NS {self.nsdname}"
 
     class Meta:
         verbose_name = _("NS record")
@@ -173,7 +163,7 @@ class PointerRecord(Record):
     ptrdname = DomainNameField(verbose_name=_("pointer domain name"))
 
     def __str__(self):
-        return f"{self.ttl} {self.dns_class} PTR {self.ptrdname}"
+        return f"{self.name} {self.ttl} {self.dns_class} PTR {self.ptrdname}"
 
     class Meta:
         verbose_name = _("PTR record")
@@ -200,7 +190,7 @@ class StartOfAuthorityRecord(Record):
 
     def __str__(self):
         rname = self.email_to_rname()
-        return (f"{self.zone} {self.ttl} {self.dns_class} SOA {self.mname} "
+        return (f"{self.name} {self.ttl} {self.dns_class} SOA {self.mname} "
                 f"{rname} {self.serial} {self.refresh} {self.retry} "
                 f"{self.expire} {self.minimum}")
 
@@ -237,7 +227,7 @@ class ServiceRecord(Record):
     )
 
     def __str__(self):
-        return (f"{self.ttl} {self.dns_class} SRV {self.priority} "
+        return (f"{self.name} {self.ttl} {self.dns_class} SRV {self.priority} "
                 f"{self.weight} {self.port} {self.target}")
 
     class Meta:
@@ -251,7 +241,7 @@ class TextRecord(Record):
 
     def __str__(self):
         # TODO: Make sure that data is split every 255 characters
-        return f"{self.ttl} {self.dns_class} TXT {self.data!r}"
+        return f"{self.name} {self.ttl} {self.dns_class} TXT {self.data!r}"
 
     class Meta:
         verbose_name = _("TXT record")
