@@ -48,6 +48,14 @@ INSTALLED_APPS = [
     'dnsmanager',
 ]
 
+# Add Django Rest Framework if installed
+try:
+    import rest_framework
+except ImportError:
+    print("Django Rest Framework integration is disabled because module is missing.")
+else:
+    INSTALLED_APPS += ['rest_framework']
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
