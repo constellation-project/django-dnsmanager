@@ -58,7 +58,7 @@ class Migration(migrations.Migration):
             name='CanonicalNameRecord',
             fields=[
                 ('record_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='dnsmanager.Record')),
-                ('c_name', dnsmanager.fields.DomainNameField(help_text='This domain name will alias to this canonical name.', verbose_name='canonical name')),
+                ('c_name', dnsmanager.fields.RecordNameField(help_text='This domain name will alias to this canonical name.', verbose_name='canonical name')),
             ],
             options={
                 'verbose_name': 'CNAME record',

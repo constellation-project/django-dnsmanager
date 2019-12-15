@@ -101,7 +101,7 @@ class Ipv6AddressRecord(Record):
 
 
 class CanonicalNameRecord(Record):
-    c_name = DomainNameField(
+    c_name = RecordNameField(
         verbose_name=_("canonical name"),
         help_text=_("This domain name will alias to this canonical name."),
     )
