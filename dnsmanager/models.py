@@ -78,15 +78,23 @@ class A(Record):
         verbose_name_plural = _("A records")
 
 
-class NS(Record):
-    nsdname = DomainNameField(verbose_name=_("name server"))
+class AAAA(Record):
+    address = models.GenericIPAddressField(
+        protocol='IPv6',
+        verbose_name=_("IPv6 address")
+    )
 
     def __str__(self):
-        return f"{self.zone} {self.ttl} {self.dns_class} NS {self.nsdname}"
+        if self.name:
+            return (f"{self.name}.{self.zone} {self.ttl} {self.dns_class} AAAA"
+                    f" {self.address}")
+        else:
+            return (f"{self.zone} {self.ttl} {self.dns_class} AAAA"
+                    f" {self.address}")
 
     class Meta:
-        verbose_name = _("NS record")
-        verbose_name_plural = _("NS records")
+        verbose_name = _("AAAA record")
+        verbose_name_plural = _("AAAA records")
 
 
 class CNAME(Record):
@@ -119,6 +127,41 @@ class CNAME(Record):
         verbose_name_plural = _("CNAME records")
 
 
+class MX(Record):
+    preference = models.PositiveIntegerField()
+    exchange = DomainNameField(verbose_name=_("exchange server"))
+
+    def __str__(self):
+        return (f"{self.zone} {self.ttl} {self.dns_class} MX {self.preference}"
+                f" {self.exchange}")
+
+    class Meta:
+        verbose_name = _("MX record")
+        verbose_name_plural = _("MX records")
+
+
+class NS(Record):
+    nsdname = DomainNameField(verbose_name=_("name server"))
+
+    def __str__(self):
+        return f"{self.zone} {self.ttl} {self.dns_class} NS {self.nsdname}"
+
+    class Meta:
+        verbose_name = _("NS record")
+        verbose_name_plural = _("NS records")
+
+
+class PTR(Record):
+    ptrdname = DomainNameField(verbose_name=_("pointer domain name"))
+
+    def __str__(self):
+        return f"{self.ttl} {self.dns_class} PTR {self.ptrdname}"
+
+    class Meta:
+        verbose_name = _("PTR record")
+        verbose_name_plural = _("PTR records")
+
+
 class SOA(Record):
     mname = DomainNameField(verbose_name=_("main name server"))
     rname = models.EmailField(verbose_name=_("responsible email"))
@@ -147,60 +190,6 @@ class SOA(Record):
         verbose_name_plural = _("SOA records")
 
 
-class PTR(Record):
-    ptrdname = DomainNameField(verbose_name=_("pointer domain name"))
-
-    def __str__(self):
-        return f"{self.ttl} {self.dns_class} PTR {self.ptrdname}"
-
-    class Meta:
-        verbose_name = _("PTR record")
-        verbose_name_plural = _("PTR records")
-
-
-class MX(Record):
-    preference = models.PositiveIntegerField()
-    exchange = DomainNameField(verbose_name=_("exchange server"))
-
-    def __str__(self):
-        return (f"{self.zone} {self.ttl} {self.dns_class} MX {self.preference}"
-                f" {self.exchange}")
-
-    class Meta:
-        verbose_name = _("MX record")
-        verbose_name_plural = _("MX records")
-
-
-class AAAA(Record):
-    address = models.GenericIPAddressField(
-        protocol='IPv6',
-        verbose_name=_("IPv6 address")
-    )
-
-    def __str__(self):
-        if self.name:
-            return (f"{self.name}.{self.zone} {self.ttl} {self.dns_class} AAAA"
-                    f" {self.address}")
-        else:
-            return (f"{self.zone} {self.ttl} {self.dns_class} AAAA"
-                    f" {self.address}")
-
-    class Meta:
-        verbose_name = _("AAAA record")
-        verbose_name_plural = _("AAAA records")
-
-
-class TXT(Record):
-    data = models.TextField()
-
-    def __str__(self):
-        return f"{self.ttl} {self.dns_class} TXT {self.data!r}"
-
-    class Meta:
-        verbose_name = _("TXT record")
-        verbose_name_plural = _("TXT records")
-
-
 class SRV(Record):
     priority = models.PositiveIntegerField()
     weight = models.PositiveIntegerField()
@@ -214,3 +203,14 @@ class SRV(Record):
     class Meta:
         verbose_name = _("SRV record")
         verbose_name_plural = _("SRV records")
+
+
+class TXT(Record):
+    data = models.TextField()
+
+    def __str__(self):
+        return f"{self.ttl} {self.dns_class} TXT {self.data!r}"
+
+    class Meta:
+        verbose_name = _("TXT record")
+        verbose_name_plural = _("TXT records")

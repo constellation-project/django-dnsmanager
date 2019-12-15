@@ -23,4 +23,5 @@ License
 -------
 
 Django-dnsmanager uses the same license as Django (BSD-like)
-because we believe in open development. Please see LICENSE file for more details.
+because we believe in open development.
+Please see LICENSE file for more details.

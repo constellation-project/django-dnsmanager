@@ -26,16 +26,16 @@ class DnsTestCase(TestCase):
             c_name="demo.adh.crans.org.",
             ttl=3600,
         )
-        NS.objects.create(
-            zone=self.zone,
-            nsdname="silice.crans.org.",
-            ttl=3599,
-        )
         MX.objects.create(
             zone=self.zone,
             preference=10,
             exchange="redisdead.crans.org.",
             ttl=3600,
+        )
+        NS.objects.create(
+            zone=self.zone,
+            nsdname="silice.crans.org.",
+            ttl=3599,
         )
         SOA.objects.create(
             zone=self.zone,
@@ -74,20 +74,20 @@ class DnsTestCase(TestCase):
             "demo.crans.org. 3600 IN CNAME demo.adh.crans.org."
         )
 
-    def test_ns(self):
-        """Verify NS"""
-        ns = NS.objects.get(nsdname="silice.crans.org.", zone=self.zone)
-        self.assertEqual(
-            str(ns),
-            "crans.org. 3599 IN NS silice.crans.org."
-        )
-
     def test_mx(self):
         """Verify MX"""
         mx = MX.objects.get(exchange="redisdead.crans.org.", zone=self.zone)
         self.assertEqual(
             str(mx),
             "crans.org. 3600 IN MX 10 redisdead.crans.org."
+        )
+
+    def test_ns(self):
+        """Verify NS"""
+        ns = NS.objects.get(nsdname="silice.crans.org.", zone=self.zone)
+        self.assertEqual(
+            str(ns),
+            "crans.org. 3599 IN NS silice.crans.org."
         )
 
     def test_soa(self):

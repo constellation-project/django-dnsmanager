@@ -26,7 +26,7 @@ class ZoneAdmin(admin.ModelAdmin):
 @admin.register(Record)
 class RecordAdmin(PolymorphicParentModelAdmin):
     base_model = Record
-    child_models = (A, NS, CNAME, SOA, PTR, MX, AAAA, TXT, SRV)
+    child_models = (A, AAAA, CNAME, MX, NS, PTR, SOA, SRV, TXT)
 
     list_display = ('name', '__str__', 'zone')
     polymorphic_list = True
@@ -40,9 +40,9 @@ class AAdmin(PolymorphicChildModelAdmin):
     autocomplete_fields = ('zone',)
 
 
-@admin.register(NS)
-class NSAdmin(PolymorphicChildModelAdmin):
-    base_model = NS
+@admin.register(AAAA)
+class AAAAAdmin(PolymorphicChildModelAdmin):
+    base_model = AAAA
     autocomplete_fields = ('zone',)
 
 
@@ -52,9 +52,15 @@ class CNAMEAdmin(PolymorphicChildModelAdmin):
     autocomplete_fields = ('zone',)
 
 
-@admin.register(SOA)
-class SOAAdmin(PolymorphicChildModelAdmin):
-    base_model = SOA
+@admin.register(MX)
+class MXAdmin(PolymorphicChildModelAdmin):
+    base_model = MX
+    autocomplete_fields = ('zone',)
+
+
+@admin.register(NS)
+class NSAdmin(PolymorphicChildModelAdmin):
+    base_model = NS
     autocomplete_fields = ('zone',)
 
 
@@ -64,21 +70,9 @@ class PTRAdmin(PolymorphicChildModelAdmin):
     autocomplete_fields = ('zone',)
 
 
-@admin.register(MX)
-class MXAdmin(PolymorphicChildModelAdmin):
-    base_model = MX
-    autocomplete_fields = ('zone',)
-
-
-@admin.register(AAAA)
-class AAAAAdmin(PolymorphicChildModelAdmin):
-    base_model = AAAA
-    autocomplete_fields = ('zone',)
-
-
-@admin.register(TXT)
-class TXTAdmin(PolymorphicChildModelAdmin):
-    base_model = TXT
+@admin.register(SOA)
+class SOAAdmin(PolymorphicChildModelAdmin):
+    base_model = SOA
     autocomplete_fields = ('zone',)
 
 
@@ -88,9 +82,20 @@ class SRVAdmin(PolymorphicChildModelAdmin):
     autocomplete_fields = ('zone',)
 
 
+@admin.register(TXT)
+class TXTAdmin(PolymorphicChildModelAdmin):
+    base_model = TXT
+    autocomplete_fields = ('zone',)
+
+
 class AInline(admin.TabularInline):
     extra = 0
     model = A
+
+
+class AAAAInline(admin.TabularInline):
+    extra = 0
+    model = AAAA
 
 
 class CNAMEInline(admin.TabularInline):
@@ -101,8 +106,3 @@ class CNAMEInline(admin.TabularInline):
 class PTRInline(admin.TabularInline):
     extra = 0
     model = PTR
-
-
-class AAAAInline(admin.TabularInline):
-    extra = 0
-    model = AAAA
