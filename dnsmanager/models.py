@@ -1,4 +1,5 @@
 from django.core.exceptions import ValidationError
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from polymorphic.models import PolymorphicModel
@@ -21,6 +22,7 @@ class Zone(models.Model):
     class Meta:
         verbose_name = _("zone")
         verbose_name_plural = _("zones")
+        ordering = ['name']
 
 
 class Record(PolymorphicModel):
@@ -58,12 +60,13 @@ class Record(PolymorphicModel):
     class Meta:
         verbose_name = _("record")
         verbose_name_plural = _("records")
+        ordering = ['zone', 'name']
 
 
-class A(Record):
+class AddressRecord(Record):
     address = models.GenericIPAddressField(
         protocol='IPv4',
-        verbose_name=_("IPv4 address")
+        verbose_name=_("IPv4 address"),
     )
 
     def __str__(self):
@@ -78,10 +81,10 @@ class A(Record):
         verbose_name_plural = _("A records")
 
 
-class AAAA(Record):
+class Ipv6AddressRecord(Record):
     address = models.GenericIPAddressField(
         protocol='IPv6',
-        verbose_name=_("IPv6 address")
+        verbose_name=_("IPv6 address"),
     )
 
     def __str__(self):
@@ -97,10 +100,10 @@ class AAAA(Record):
         verbose_name_plural = _("AAAA records")
 
 
-class CNAME(Record):
+class CanonicalNameRecord(Record):
     c_name = DomainNameField(
         verbose_name=_("canonical name"),
-        help_text=_('This domain name will alias to this canonical name.'),
+        help_text=_("This domain name will alias to this canonical name."),
     )
 
     def __str__(self):
@@ -125,11 +128,21 @@ class CNAME(Record):
     class Meta:
         verbose_name = _("CNAME record")
         verbose_name_plural = _("CNAME records")
+        ordering = ['c_name']
 
 
-class MX(Record):
-    preference = models.PositiveIntegerField()
-    exchange = DomainNameField(verbose_name=_("exchange server"))
+class MailExchangeRecord(Record):
+    preference = models.PositiveIntegerField(
+        validators=[
+            MinValueValidator(0),
+            MaxValueValidator(65535),
+        ],
+        verbose_name=_("preference"),
+    )
+    exchange = DomainNameField(
+        verbose_name=_("exchange server"),
+        default="@",
+    )
 
     def __str__(self):
         return (f"{self.zone} {self.ttl} {self.dns_class} MX {self.preference}"
@@ -138,10 +151,14 @@ class MX(Record):
     class Meta:
         verbose_name = _("MX record")
         verbose_name_plural = _("MX records")
+        ordering = ['preference']
 
 
-class NS(Record):
-    nsdname = DomainNameField(verbose_name=_("name server"))
+class NameServerRecord(Record):
+    nsdname = DomainNameField(
+        verbose_name=_("name server"),
+        default="@",
+    )
 
     def __str__(self):
         return f"{self.zone} {self.ttl} {self.dns_class} NS {self.nsdname}"
@@ -149,9 +166,10 @@ class NS(Record):
     class Meta:
         verbose_name = _("NS record")
         verbose_name_plural = _("NS records")
+        ordering = ['nsdname']
 
 
-class PTR(Record):
+class PointerRecord(Record):
     ptrdname = DomainNameField(verbose_name=_("pointer domain name"))
 
     def __str__(self):
@@ -160,9 +178,10 @@ class PTR(Record):
     class Meta:
         verbose_name = _("PTR record")
         verbose_name_plural = _("PTR records")
+        ordering = ['ptrdname']
 
 
-class SOA(Record):
+class StartOfAuthorityRecord(Record):
     mname = DomainNameField(verbose_name=_("main name server"))
     rname = models.EmailField(verbose_name=_("responsible email"))
     serial = models.BigIntegerField()
@@ -188,13 +207,34 @@ class SOA(Record):
     class Meta:
         verbose_name = _("SOA record")
         verbose_name_plural = _("SOA records")
+        ordering = ['mname']
 
 
-class SRV(Record):
-    priority = models.PositiveIntegerField()
-    weight = models.PositiveIntegerField()
-    port = models.PositiveIntegerField()
-    target = DomainNameField()
+class ServiceRecord(Record):
+    priority = models.PositiveIntegerField(
+        validators=[
+            MinValueValidator(0),
+            MaxValueValidator(65535),
+        ],
+        verbose_name=_("priority"),
+    )
+    weight = models.PositiveIntegerField(
+        validators=[
+            MinValueValidator(0),
+            MaxValueValidator(65535),
+        ],
+        verbose_name=_("weight"),
+    )
+    port = models.PositiveIntegerField(
+        validators=[
+            MinValueValidator(1),
+            MaxValueValidator(65535),
+        ],
+        verbose_name=_("port"),
+    )
+    target = DomainNameField(
+        verbose_name=_("target"),
+    )
 
     def __str__(self):
         return (f"{self.ttl} {self.dns_class} SRV {self.priority} "
@@ -203,14 +243,28 @@ class SRV(Record):
     class Meta:
         verbose_name = _("SRV record")
         verbose_name_plural = _("SRV records")
+        ordering = ['priority', 'target']
 
 
-class TXT(Record):
+class TextRecord(Record):
     data = models.TextField()
 
     def __str__(self):
+        # TODO: Make sure that data is split every 255 characters
         return f"{self.ttl} {self.dns_class} TXT {self.data!r}"
 
     class Meta:
         verbose_name = _("TXT record")
         verbose_name_plural = _("TXT records")
+
+
+# Aliases
+A = AddressRecord
+AAAA = Ipv6AddressRecord
+CNAME = CanonicalNameRecord
+MX = MailExchangeRecord
+NS = NameServerRecord
+PTR = PointerRecord
+TXT = TextRecord
+SOA = StartOfAuthorityRecord
+SRV = ServiceRecord
