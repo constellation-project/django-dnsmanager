@@ -5,7 +5,7 @@ from django.db import models
 class RecordNameField(models.CharField):
 
     record_name_validator = RegexValidator(
-        regex=r'(?:[a-zA-Z0-9_][a-zA-Z0-9_-]{0,62}(?<!-)\.)*(?:[a-zA-Z0-9_][a-zA-Z0-9_-]{0,62}(?<!-))',
+        regex=r'(?:(?:[a-zA-Z0-9_][a-zA-Z0-9_-]{0,62}(?<!-)\.)*(?:[a-zA-Z0-9_][a-zA-Z0-9_-]{0,62}(?<!-)))|@',
         message='Not a valid domain name',
     )
 
