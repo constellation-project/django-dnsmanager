@@ -36,7 +36,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'dnsmanager',
     'django.contrib.admin',
     'django.contrib.admindocs',
     'django.contrib.auth',
@@ -45,6 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'polymorphic',
+    'dnsmanager',
 ]
 
 MIDDLEWARE = [

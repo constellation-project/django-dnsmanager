@@ -12,7 +12,8 @@ warnings.simplefilter("always", DeprecationWarning)
 
 # Give feedback on used versions
 sys.stderr.write(
-    "Using Python version {0} from {1}\n".format(sys.version[:5], sys.executable)
+    "Using Python version {0} from {1}\n".format(
+        sys.version[:5], sys.executable)
 )
 sys.stderr.write(
     "Using Django version {0} from {1}\n".format(
@@ -26,7 +27,7 @@ if not settings.configured:
         DATABASES={
             "default": {
                 'ENGINE': 'django.db.backends.sqlite3',
-               'NAME': ':memory:',
+                'NAME': ':memory:',
             }
         },
         TEST_RUNNER="django.test.runner.DiscoverRunner",
@@ -37,6 +38,7 @@ if not settings.configured:
             "django.contrib.sessions",
             "django.contrib.sites",
             "django.contrib.admin",
+            "polymorphic",
             "dnsmanager",
         ),
         MIDDLEWARE=(
