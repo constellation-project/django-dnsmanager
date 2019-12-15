@@ -48,6 +48,14 @@ INSTALLED_APPS = [
     'dnsmanager',
 ]
 
+# Add Django Rest Framework if installed
+try:
+    import rest_framework
+except ImportError:
+    print("Django Rest Framework integration is disabled because module is missing.")
+else:
+    INSTALLED_APPS += ['rest_framework']
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -144,6 +152,15 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
 STATIC_URL = '/static/'
+
+# Activate pagination and use Django permissions in Rest framework
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.DjangoModelPermissions',
+    )
+}
 
 try:
     from settings_local import *

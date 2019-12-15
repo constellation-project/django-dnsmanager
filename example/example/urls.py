@@ -18,3 +18,19 @@ urlpatterns = [
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', admin.site.urls),
 ]
+
+# If Django Rest Framework is installed, then add a REST API
+try:
+    from rest_framework import routers
+except ImportError:
+    pass
+else:
+    from dnsmanager.api import views
+
+    router = routers.DefaultRouter()
+    router.register(r'record', views.RecordViewSet)
+    router.register(r'zone', views.ZoneViewSet)
+
+    urlpatterns += [
+        url(r'^api/', include(router.urls)),
+    ]
