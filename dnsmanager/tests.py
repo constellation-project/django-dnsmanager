@@ -9,14 +9,16 @@ Test DNS app against some records from Cr@ns.
 
 class DnsTestCase(TestCase):
     def setUp(self):
-        self.zone = Zone.objects.create(name="crans.org.")
+        self.zone = Zone.objects.create(name="crans.org")
         A.objects.create(
             zone=self.zone,
+            name="@",
             address="185.230.79.194",
             ttl=3600,
         )
         AAAA.objects.create(
             zone=self.zone,
+            name="@",
             address="2a0c:700:0:24:ba:ccff:feda:aa00",
             ttl=3600,
         )
@@ -28,17 +30,20 @@ class DnsTestCase(TestCase):
         )
         MX.objects.create(
             zone=self.zone,
+            name="@",
             preference=10,
             exchange="redisdead.crans.org.",
             ttl=3600,
         )
         NS.objects.create(
             zone=self.zone,
+            name="@",
             nsdname="silice.crans.org.",
             ttl=3599,
         )
         SOA.objects.create(
             zone=self.zone,
+            name="@",
             mname="silice.crans.org.",
             rname="root@crans.org.",
             serial=3654784651,
@@ -54,7 +59,7 @@ class DnsTestCase(TestCase):
         a = A.objects.get(address="185.230.79.194", zone=self.zone)
         self.assertEqual(
             str(a),
-            "crans.org. 3600 IN A 185.230.79.194"
+            "@ 3600 IN A 185.230.79.194"
         )
 
     def test_aaaa(self):
@@ -63,7 +68,7 @@ class DnsTestCase(TestCase):
             address="2a0c:700:0:24:ba:ccff:feda:aa00", zone=self.zone)
         self.assertEqual(
             str(aaaa),
-            "crans.org. 3600 IN AAAA 2a0c:700:0:24:ba:ccff:feda:aa00"
+            "@ 3600 IN AAAA 2a0c:700:0:24:ba:ccff:feda:aa00"
         )
 
     def test_cname(self):
@@ -71,7 +76,7 @@ class DnsTestCase(TestCase):
         cname = CNAME.objects.get(name="demo", zone=self.zone)
         self.assertEqual(
             str(cname),
-            "demo.crans.org. 3600 IN CNAME demo.adh.crans.org."
+            "demo 3600 IN CNAME demo.adh.crans.org."
         )
 
     def test_mx(self):
@@ -79,7 +84,7 @@ class DnsTestCase(TestCase):
         mx = MX.objects.get(exchange="redisdead.crans.org.", zone=self.zone)
         self.assertEqual(
             str(mx),
-            "crans.org. 3600 IN MX 10 redisdead.crans.org."
+            "@ 3600 IN MX 10 redisdead.crans.org."
         )
 
     def test_ns(self):
@@ -87,7 +92,7 @@ class DnsTestCase(TestCase):
         ns = NS.objects.get(nsdname="silice.crans.org.", zone=self.zone)
         self.assertEqual(
             str(ns),
-            "crans.org. 3599 IN NS silice.crans.org."
+            "@ 3599 IN NS silice.crans.org."
         )
 
     def test_soa(self):
@@ -95,5 +100,5 @@ class DnsTestCase(TestCase):
         soa = SOA.objects.get(mname="silice.crans.org.", zone=self.zone)
         self.assertEqual(
             str(soa),
-            "crans.org. 3600 IN SOA silice.crans.org. root.crans.org. 3654784651 76400 5000 3500000 3600"
+            "@ 3600 IN SOA silice.crans.org. root.crans.org. 3654784651 76400 5000 3500000 3600"
         )
