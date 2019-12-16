@@ -170,6 +170,51 @@ class PointerRecord(Record):
         verbose_name_plural = _("PTR records")
         ordering = ['ptrdname']
 
+class SshFingerprintRecord(Record):
+    ALGORITHMS = [
+        (1, "RSA"),
+        (2, "DSA"),
+        (3, "ECDSA"),
+        (4, "Ed25519"),
+    ]
+
+    TYPES = [
+        (1, "SHA-1"),
+        (2, "SHA-256")
+    ]
+
+    algorithm = models.PositiveIntegerField(
+        choices=ALGORITHMS,
+        validators=[
+            MinValueValidator(1),
+            MaxValueValidator(4),
+        ],
+        verbose_name=_("algorithm"),
+    )
+
+    type = models.PositiveIntegerField(
+        choices=TYPES,
+        validators=[
+            MinValueValidator(1),
+            MaxValueValidator(2),
+        ],
+        verbose_name=_("type"),
+    )
+
+    fingerprint = models.CharField(
+        max_length=64,
+        verbose_name=_("fingerprint"),
+    )
+
+    def __str__(self):
+        return (f"{self.name} {self.ttl} {self.dns_class} SSHFP "
+                f"{self.algorithm} {self.type} {self.fingerprint}")
+
+    class Meta:
+        verbose_name = _("SSHFP record")
+        verbose_name_plural = _("SSHFP records")
+        ordering = ['algorithm']
+
 
 class StartOfAuthorityRecord(Record):
     mname = DomainNameField(verbose_name=_("main name server"))
@@ -255,6 +300,7 @@ CNAME = CanonicalNameRecord
 MX = MailExchangeRecord
 NS = NameServerRecord
 PTR = PointerRecord
-TXT = TextRecord
 SOA = StartOfAuthorityRecord
 SRV = ServiceRecord
+SSHFP = SshFingerprintRecord
+TXT = TextRecord
