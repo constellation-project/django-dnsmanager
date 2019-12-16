@@ -4,7 +4,7 @@ from polymorphic.admin import PolymorphicChildModelAdmin, \
     PolymorphicChildModelFilter, PolymorphicParentModelAdmin
 
 from .models import A, AAAA, CAA, CNAME, MX, NS, PTR, Record, \
-    SOA, SSHFP, SRV, TXT, Zone
+    SOA, SRV, SSHFP, TXT, Zone
 
 
 @admin.register(Zone)
@@ -84,7 +84,7 @@ class SOAAdmin(PolymorphicChildModelAdmin):
 
 
 @admin.register(SSHFP)
-class SRVAdmin(PolymorphicChildModelAdmin):
+class SSHFPAdmin(PolymorphicChildModelAdmin):
     base_model = SSHFP
     autocomplete_fields = ('zone',)
 

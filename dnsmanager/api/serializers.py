@@ -1,7 +1,8 @@
 from rest_framework import serializers
 
 from .polymorphic_serializer import PolymorphicSerializer
-from ..models import A, AAAA, CNAME, MX, NS, PTR, SOA, SRV, TXT, Zone
+from ..models import A, AAAA, CAA, CNAME, MX, NS, PTR, \
+    SOA, SRV, SSHFP, TXT, Zone
 
 
 class ASerializer(serializers.ModelSerializer):
@@ -13,6 +14,12 @@ class ASerializer(serializers.ModelSerializer):
 class AAAASerializer(serializers.ModelSerializer):
     class Meta:
         model = AAAA
+        fields = '__all__'
+
+
+class CAASerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CAA
         fields = '__all__'
 
 
@@ -49,6 +56,12 @@ class SOASerializer(serializers.ModelSerializer):
 class SRVSerializer(serializers.ModelSerializer):
     class Meta:
         model = SRV
+        fields = '__all__'
+
+
+class SSHFPSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SSHFP
         fields = '__all__'
 
 
