@@ -120,6 +120,39 @@ class CanonicalNameRecord(Record):
         verbose_name_plural = _("CNAME records")
         ordering = ['c_name']
 
+class CertificationAuthorityAuthorizationRecord(Record):
+    TAGS = [
+        ('issue', _("issue")),
+        ('issuewild', _("issue wildcard")),
+        ('iodef', _("Incident object description exchange format")),
+    ]
+
+    flags = models.PositiveIntegerField(
+        validators=[
+            MinValueValidator(0),
+            MaxValueValidator(255),
+        ],
+        verbose_name=_("flags"),
+    )
+    tag = models.CharField(
+        max_length=255,
+        choices=TAGS,
+        verbose_name=_("tag"),
+    )
+    value = models.CharField(
+        max_length=511,
+        verbose_name=_("value")
+    )
+
+    def __str__(self):
+        return (f"{self.name} {self.ttl} {self.dns_class} CAA {self.flags} "
+                f"{self.tag} {self.value!r}")
+
+    class Meta:
+        verbose_name = _("CAA record")
+        verbose_name_plural = _("CAA records")
+        ordering = ['flags']
+
 
 class MailExchangeRecord(Record):
     preference = models.PositiveIntegerField(
@@ -296,6 +329,7 @@ class TextRecord(Record):
 # Aliases
 A = AddressRecord
 AAAA = Ipv6AddressRecord
+CAA = CertificationAuthorityAuthorizationRecord
 CNAME = CanonicalNameRecord
 MX = MailExchangeRecord
 NS = NameServerRecord
