@@ -12,6 +12,12 @@ class Zone(models.Model):
         unique=True,
         verbose_name=_("name"),
     )
+    slug = models.SlugField(
+        unique=True,
+        max_length=253,
+        verbose_name=_("slug"),
+        help_text=_("This zone will be accessible at /dns/{slug}/."),
+    )
 
     def __str__(self):
         """

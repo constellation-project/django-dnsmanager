@@ -9,6 +9,7 @@ from django.views.generic import RedirectView
 urlpatterns = [
     # No app, so redirect to admin
     url(r'^$', RedirectView.as_view(pattern_name='admin:index'), name='index'),
+    url(r'^dns/', include('dnsmanager.urls')),
 
     # Include Django Contrib and Core routers
     url(r'^i18n/', include('django.conf.urls.i18n')),

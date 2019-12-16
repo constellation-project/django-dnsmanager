@@ -10,7 +10,10 @@ from .models import A, AAAA, CAA, CNAME, MX, NS, PTR, Record, \
 @admin.register(Zone)
 class ZoneAdmin(admin.ModelAdmin):
     # For autocompletion
-    search_fields = ('name',)
+    search_fields = ('name', 'slug')
+
+    # Autocomplete slug with name
+    prepopulated_fields = {'slug': ('name', )}
 
     def get_model_perms(self, request):
         """
