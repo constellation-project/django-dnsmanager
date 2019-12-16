@@ -13,6 +13,7 @@ urlpatterns = [
 
     # Include Django Contrib and Core routers
     url(r'^i18n/', include('django.conf.urls.i18n')),
+    url(r'^accounts/login/', RedirectView.as_view(pattern_name='index'), name='login'),
     url(r'^accounts/', include('django.contrib.auth.urls')),
     url(r'^accounts/profile/',
         RedirectView.as_view(pattern_name='index')),
