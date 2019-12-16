@@ -3,7 +3,8 @@ from django.urls import resolve
 from polymorphic.admin import PolymorphicChildModelAdmin, \
     PolymorphicChildModelFilter, PolymorphicParentModelAdmin
 
-from .models import A, AAAA, CNAME, MX, NS, PTR, Record, SOA, SRV, TXT, Zone
+from .models import A, AAAA, CAA, CNAME, MX, NS, PTR, Record, \
+    SOA, SSHFP, SRV, TXT, Zone
 
 
 @admin.register(Zone)
@@ -26,7 +27,7 @@ class ZoneAdmin(admin.ModelAdmin):
 @admin.register(Record)
 class RecordAdmin(PolymorphicParentModelAdmin):
     base_model = Record
-    child_models = (A, AAAA, CNAME, MX, NS, PTR, SOA, SRV, TXT)
+    child_models = (A, AAAA, CAA, CNAME, MX, NS, PTR, SOA, SSHFP, SRV, TXT)
 
     list_display = ('name', '__str__', 'zone')
     polymorphic_list = True
@@ -43,6 +44,12 @@ class AAdmin(PolymorphicChildModelAdmin):
 @admin.register(AAAA)
 class AAAAAdmin(PolymorphicChildModelAdmin):
     base_model = AAAA
+    autocomplete_fields = ('zone',)
+
+
+@admin.register(CAA)
+class CAAAdmin(PolymorphicChildModelAdmin):
+    base_model = CAA
     autocomplete_fields = ('zone',)
 
 
@@ -73,6 +80,12 @@ class PTRAdmin(PolymorphicChildModelAdmin):
 @admin.register(SOA)
 class SOAAdmin(PolymorphicChildModelAdmin):
     base_model = SOA
+    autocomplete_fields = ('zone',)
+
+
+@admin.register(SSHFP)
+class SRVAdmin(PolymorphicChildModelAdmin):
+    base_model = SSHFP
     autocomplete_fields = ('zone',)
 
 
