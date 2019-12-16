@@ -120,6 +120,7 @@ class CanonicalNameRecord(Record):
         verbose_name_plural = _("CNAME records")
         ordering = ['c_name']
 
+
 class CertificationAuthorityAuthorizationRecord(Record):
     TAGS = [
         ('issue', _("issue")),
@@ -202,6 +203,7 @@ class PointerRecord(Record):
         verbose_name = _("PTR record")
         verbose_name_plural = _("PTR records")
         ordering = ['ptrdname']
+
 
 class SshFingerprintRecord(Record):
     ALGORITHMS = [
