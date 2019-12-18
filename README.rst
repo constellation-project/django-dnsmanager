@@ -17,7 +17,11 @@ For development in a virtualenv:
 
    $ python3 -m venv venv
    $ source venv/bin/activate
-   $ pip3 install -e .
+   $ pip install -e .
+   $ pip install djangorestframework docutils
+
+`djangorestframework` and `docutils` are not required but useful if
+you want a REST API and a documentation in Django Admin.
 
 Running a demo project
 ----------------------
@@ -43,8 +47,8 @@ Now you may run the Django development server:
 You should then be able to open your browser on http://127.0.0.1:8000
 and see this app running.
 
-Integrations
-------------
+Integration with Django Rest Framework
+--------------------------------------
 
 This app brings serializers and viewsets for Django Rest Framework.
 You can use those in your REST API like this,
