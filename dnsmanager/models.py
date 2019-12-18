@@ -282,18 +282,63 @@ class SshFingerprintRecord(Record):
 
 
 class StartOfAuthorityRecord(Record):
-    mname = DomainNameField(verbose_name=_("main name server"))
-    rname = models.EmailField(verbose_name=_("responsible email"))
-    serial = models.BigIntegerField()
-    refresh = models.BigIntegerField()
-    retry = models.BigIntegerField()
-    expire = models.BigIntegerField()
-    minimum = models.BigIntegerField()
+    """
+    A Start Of Authority record (abbreviated SOA) contains administrative
+    information about the zone.
+
+    Every zone must have a SOA record to conform to the standard.
+
+    This format is defined in RFC 1035.
+    Please read <https://en.wikipedia.org/wiki/SOA_record> for more details.
+    """
+    mname = DomainNameField(
+        verbose_name=_("master name server"),
+        help_text=_("Primary master name server for this zone."),
+    )
+    rname = models.EmailField(
+        verbose_name=_("responsible email"),
+        help_text=_("Email address of the administrator responsible for this "
+                    "zone."),
+    )
+    # TODO: automatic serial based on date
+    # e.g. 2017031405 (5th change from 14th march 2017)
+    serial = models.BigIntegerField(
+        verbose_name=_("serial number"),
+        help_text=_("A slave name server will initiate a zone transfer if "
+                    "this serial is incremented."),
+    )
+    refresh = models.BigIntegerField(
+        verbose_name=_("refresh"),
+        help_text=_("Number of seconds after which secondary name servers "
+                    "should query the master to detect zone changes."),
+        default=86400,
+    )
+    # TODO: validate retry < refresh
+    retry = models.BigIntegerField(
+        verbose_name=_("retry"),
+        help_text=_("Number of seconds after which secondary name servers "
+                    "should retry to request the serial number from the "
+                    "master if the master does not respond."),
+        default=7200,
+    )
+    # TODO: validate expire > refresh + retry
+    expire = models.BigIntegerField(
+        verbose_name=_("expire"),
+        help_text=_("Number of seconds after which secondary name servers "
+                    "should stop answering request for this zone if the "
+                    "master does not respond."),
+        default=3600000,
+    )
+    minimum = models.BigIntegerField(
+        verbose_name=_("minimum"),
+        help_text=_("Time to live for purposes of negative caching."),
+        default=172800,
+    )
 
     def email_to_rname(self):
         """
         Convert email format to domain name format
-        e.g. root@crans.org to root.crans.org
+        e.g. root@example.org to root.example.org
         """
         rname = self.rname.split('@')
         return rname[0].replace('.', '\\.') + '.' + rname[1]
