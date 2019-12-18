@@ -3,7 +3,7 @@ from django.urls import resolve
 from polymorphic.admin import PolymorphicChildModelAdmin, \
     PolymorphicChildModelFilter, PolymorphicParentModelAdmin
 
-from .models import A, AAAA, CAA, CNAME, MX, NS, PTR, Record, \
+from .models import A, AAAA, CAA, CNAME, DNAME, MX, NS, PTR, Record, \
     SOA, SRV, SSHFP, TXT, Zone
 
 
@@ -30,7 +30,8 @@ class ZoneAdmin(admin.ModelAdmin):
 @admin.register(Record)
 class RecordAdmin(PolymorphicParentModelAdmin):
     base_model = Record
-    child_models = (A, AAAA, CAA, CNAME, MX, NS, PTR, SOA, SSHFP, SRV, TXT)
+    child_models = (A, AAAA, CAA, CNAME, DNAME, MX, NS, PTR, SOA, SSHFP, SRV,
+                    TXT)
 
     list_display = ('name', '__str__', 'zone')
     polymorphic_list = True
@@ -59,6 +60,12 @@ class CAAAdmin(PolymorphicChildModelAdmin):
 @admin.register(CNAME)
 class CNAMEAdmin(PolymorphicChildModelAdmin):
     base_model = CNAME
+    autocomplete_fields = ('zone',)
+
+
+@admin.register(DNAME)
+class DNAMEAdmin(PolymorphicChildModelAdmin):
+    base_model = DNAME
     autocomplete_fields = ('zone',)
 
 

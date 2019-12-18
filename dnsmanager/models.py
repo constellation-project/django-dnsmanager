@@ -108,6 +108,14 @@ class AddressRecord(Record):
 
 
 class Ipv6AddressRecord(Record):
+    """
+    A Ipv6 Address record, or quad-A (abbreviated AAAA), maps
+    a hostname to a IPv6 address.
+
+    This format is defined in RFC 3596.
+    Please read <https://en.wikipedia.org/wiki/IPv6_address#Domain_Name_System>
+    for more details.
+    """
     address = models.GenericIPAddressField(
         protocol='IPv6',
         verbose_name=_("IPv6 address"),
@@ -122,6 +130,14 @@ class Ipv6AddressRecord(Record):
 
 
 class CanonicalNameRecord(Record):
+    """
+    A Canonical name record (abbreviated CNAME), aliases
+    one name to another.
+
+    This format is defined in RFC 1035.
+    Please read <https://en.wikipedia.org/wiki/CNAME_record>
+    for more details.
+    """
     c_name = RecordNameField(
         verbose_name=_("canonical name"),
         help_text=_("This domain name will alias to this canonical name."),
@@ -183,6 +199,30 @@ class CertificationAuthorityAuthorizationRecord(Record):
         verbose_name = _("CAA record")
         verbose_name_plural = _("CAA records")
         ordering = ['flags']
+
+
+class DelegationNameRecord(Record):
+    """
+    A Delegation name record (abbreviated DNAME), aliases a domain to
+    the entire subtree of another domain.
+
+    This format is defined in RFC 6672.
+    Please read <https://en.wikipedia.org/wiki/CNAME_record#DNAME_record>
+    for more details.
+    """
+    d_name = DomainNameField(
+        verbose_name=_("delegation domain name"),
+        help_text=_("This domain name will alias to the entire subtree of "
+                    "that delegation domain."),
+    )
+
+    def __str__(self):
+        return f"{self.name} {self.ttl} {self.dns_class} DNAME {self.d_name}"
+
+    class Meta:
+        verbose_name = _("DNAME record")
+        verbose_name_plural = _("DNAME records")
+        ordering = ['d_name']
 
 
 class MailExchangeRecord(Record):
@@ -408,6 +448,7 @@ A = AddressRecord
 AAAA = Ipv6AddressRecord
 CAA = CertificationAuthorityAuthorizationRecord
 CNAME = CanonicalNameRecord
+DNAME = DelegationNameRecord
 MX = MailExchangeRecord
 NS = NameServerRecord
 PTR = PointerRecord

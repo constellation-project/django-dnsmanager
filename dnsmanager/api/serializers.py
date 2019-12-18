@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from .polymorphic_serializer import PolymorphicSerializer
-from ..models import A, AAAA, CAA, CNAME, MX, NS, PTR, \
+from ..models import A, AAAA, CAA, CNAME, DNAME, MX, NS, PTR, \
     SOA, SRV, SSHFP, TXT, Zone
 
 
@@ -26,6 +26,12 @@ class CAASerializer(serializers.ModelSerializer):
 class CNAMESerializer(serializers.ModelSerializer):
     class Meta:
         model = CNAME
+        fields = '__all__'
+
+
+class DNAMESerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DNAME
         fields = '__all__'
 
 
@@ -76,6 +82,7 @@ class RecordPolymorphicSerializer(PolymorphicSerializer):
         A: ASerializer,
         AAAA: AAAASerializer,
         CNAME: CNAMESerializer,
+        DNAME: DNAMESerializer,
         MX: MXSerializer,
         NS: NSSerializer,
         PTR: PTRSerializer,
