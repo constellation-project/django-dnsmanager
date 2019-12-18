@@ -94,6 +94,11 @@ class Record(PolymorphicModel):
 
 
 class AddressRecord(Record):
+    """
+    A Ipv4 Address record (abbreviated A) maps a hostname to a IPv4 address.
+
+    This format is defined in RFC 1035.
+    """
     address = models.GenericIPAddressField(
         protocol='IPv4',
         verbose_name=_("IPv4 address"),
@@ -131,7 +136,7 @@ class Ipv6AddressRecord(Record):
 
 class CanonicalNameRecord(Record):
     """
-    A Canonical name record (abbreviated CNAME), aliases
+    A Canonical name record (abbreviated CNAME) aliases
     one name to another.
 
     This format is defined in RFC 1035.
@@ -168,6 +173,12 @@ class CanonicalNameRecord(Record):
 
 
 class CertificationAuthorityAuthorizationRecord(Record):
+    """
+    A Certification Authority Authorization record (abbreviated CAA)
+    constraints acceptable CAs for a host or domain.
+
+    This format is defined in RFC 6844.
+    """
     TAGS = [
         ('issue', _("issue")),
         ('issuewild', _("issue wildcard")),
@@ -226,6 +237,12 @@ class DelegationNameRecord(Record):
 
 
 class MailExchangeRecord(Record):
+    """
+    A Mail Exchange record (abbreviated MX) maps a domain name to a list of
+    message transfer agents for that domain.
+
+    This format is defined in RFC 1035 and 7505.
+    """
     preference = models.PositiveIntegerField(
         validators=[
             MinValueValidator(0),
@@ -249,6 +266,12 @@ class MailExchangeRecord(Record):
 
 
 class NameServerRecord(Record):
+    """
+    A Name Server record (abbreviated NS) delegates a DNS zone to use the
+    given authoritative name servers.
+
+    This format is defined in RFC 1035.
+    """
     nsdname = DomainNameField(
         verbose_name=_("name server"),
         default="@",
@@ -264,6 +287,15 @@ class NameServerRecord(Record):
 
 
 class PointerRecord(Record):
+    """
+    A Pointer Resource record (abbreviated PTR) points a name to a canonical
+    name.
+
+    Unlike a CNAME, DNS processing stops and just the name is returned.
+    It is useful for implementing reverse DNS lookups.
+
+    This format is defined in RFC 1035.
+    """
     ptrdname = DomainNameField(verbose_name=_("pointer domain name"))
 
     def __str__(self):
@@ -276,6 +308,12 @@ class PointerRecord(Record):
 
 
 class SshFingerprintRecord(Record):
+    """
+    A SSH Fingerprint record (abbreviated SSHFP) indicates the SSH public host
+    key fingerprint of a host.
+
+    This format is defined in RFC 4255 and 6594.
+    """
     ALGORITHMS = [
         (1, "RSA"),
         (2, "DSA"),
@@ -296,7 +334,6 @@ class SshFingerprintRecord(Record):
         ],
         verbose_name=_("algorithm"),
     )
-
     type = models.PositiveIntegerField(
         choices=TYPES,
         validators=[
@@ -305,7 +342,6 @@ class SshFingerprintRecord(Record):
         ],
         verbose_name=_("type"),
     )
-
     fingerprint = models.CharField(
         max_length=64,
         verbose_name=_("fingerprint"),
@@ -396,6 +432,14 @@ class StartOfAuthorityRecord(Record):
 
 
 class ServiceRecord(Record):
+    """
+    A Service record (abbreviated SRV) indicates the presence of a service.
+
+    It is a generalized service record instead of protocol-specific records
+    such as MX.
+
+    This format is defined in RFC 2782.
+    """
     priority = models.PositiveIntegerField(
         validators=[
             MinValueValidator(0),
@@ -432,6 +476,11 @@ class ServiceRecord(Record):
 
 
 class TextRecord(Record):
+    """
+    A Text record (abbreviated TXT) indicates arbitrary human-readable text.
+
+    This format is defined in RFC 1035 and 1464.
+    """
     data = models.TextField()
 
     def __str__(self):
