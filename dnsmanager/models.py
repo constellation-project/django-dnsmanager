@@ -4,7 +4,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from polymorphic.models import PolymorphicModel
 
-from .fields import DomainNameField, RecordNameField
+from .fields import DomainNameField
 
 
 class Zone(models.Model):
@@ -69,7 +69,8 @@ class Record(PolymorphicModel):
         verbose_name=_("zone"),
         help_text=_("This record will be applied on that zone."),
     )
-    name = RecordNameField(
+    name = models.CharField(
+        max_length=253,
         verbose_name=_("name"),
         blank=True,
     )
@@ -143,7 +144,8 @@ class CanonicalNameRecord(Record):
     Please read <https://en.wikipedia.org/wiki/CNAME_record>
     for more details.
     """
-    c_name = RecordNameField(
+    c_name = models.CharField(
+        max_length=253,
         verbose_name=_("canonical name"),
         help_text=_("This domain name will alias to this canonical name."),
     )
