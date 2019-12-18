@@ -72,6 +72,8 @@ class Record(PolymorphicModel):
     name = models.CharField(
         max_length=253,
         verbose_name=_("name"),
+        help_text=_(
+            "The domain name for which this record is valid, ending in a dot."),
         blank=True,
     )
     dns_class = models.CharField(
@@ -441,13 +443,27 @@ class ServiceRecord(Record):
     such as MX.
 
     This format is defined in RFC 2782.
+    Please read <https://en.wikipedia.org/wiki/SRV_record> for more details.
     """
+    service = models.CharField(
+        max_length=253,
+        verbose_name=_("service"),
+        help_text=_("The symbolic name of the desired service."),
+    )
+    protocol = models.CharField(
+        max_length=253,
+        verbose_name=_("protocol"),
+        help_text=_("The transport protocol of the desired service, usually "
+                    "either TCP or UDP."),
+    )
     priority = models.PositiveIntegerField(
         validators=[
             MinValueValidator(0),
             MaxValueValidator(65535),
         ],
         verbose_name=_("priority"),
+        help_text=_("The priority of the target host, lower value means more "
+                    "preferred."),
     )
     weight = models.PositiveIntegerField(
         validators=[
@@ -455,6 +471,8 @@ class ServiceRecord(Record):
             MaxValueValidator(65535),
         ],
         verbose_name=_("weight"),
+        help_text=_("A relative weight for records with the same priority, "
+                    "higher value means higher chance of getting picked."),
     )
     port = models.PositiveIntegerField(
         validators=[
@@ -465,10 +483,12 @@ class ServiceRecord(Record):
     )
     target = DomainNameField(
         verbose_name=_("target"),
+        help_text=_("The canonical hostname of the machine providing the "
+                    "service, ending in a dot."),
     )
 
     def __str__(self):
-        return (f"{self.name} {self.ttl} {self.dns_class} SRV {self.priority} "
+        return (f"_{self.service}.{self.protocol}.{self.name} {self.ttl} {self.dns_class} SRV {self.priority} "
                 f"{self.weight} {self.port} {self.target}")
 
     class Meta:
