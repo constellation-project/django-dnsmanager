@@ -1,10 +1,7 @@
-# https://travis-ci.org/django-polymorphic/django-polymorphic
-dist: xenial
-sudo: false
+dist: bionic
 language: python
 
-matrix:
-  fast_finish: true
+jobs:
   include:
     # Django 1.11: Python 3.6
     - { env: TOXENV=py36-django111, python: 3.6 }
