@@ -25,5 +25,6 @@ To package a new version to pip:
 
    $ source venv/bin/activate
    $ pip install setuptools wheel twine
+   $ cd dnsmanager && django-admin compilemessages && cd ..
    $ python setup.py sdist bdist_wheel
    $ twine upload dist/*

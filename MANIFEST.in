@@ -1,2 +1,4 @@
 include README.rst
 include LICENSE
+recursive-include dnsmanager/templates *.html
+recursive-include dnsmanager/locale *.mo *.po
