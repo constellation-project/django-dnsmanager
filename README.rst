@@ -8,20 +8,17 @@ Django DNS manager
 
 This is a DNS manager Django app.
 
-Manual install
---------------
+Installation
+------------
 
-For development in a virtualenv:
+The following lines creates a Python3 virtualenv and installs
+``django-dnsmanager`` inside.
 
 .. code:: bash
 
    $ python3 -m venv venv
    $ source venv/bin/activate
-   $ pip install -e .
-   $ pip install djangorestframework docutils
-
-`djangorestframework` and `docutils` are not required but useful if
-you want a REST API and a documentation in Django Admin.
+   $ pip install django-dnsmanager
 
 Running a demo project
 ----------------------
