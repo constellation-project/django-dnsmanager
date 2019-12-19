@@ -135,13 +135,3 @@ class DnsTestCase(TestCase):
                 minimum=3600,
                 ttl=3600,
             )
-
-    def test_cname_validation_unique(self):
-        """Verify CNAME uniqueness"""
-        with self.assertRaises(ValidationError):
-            CNAME.objects.create(
-                zone=self.zone,
-                name="demo",
-                c_name="demo.adh.example.com.",
-                ttl=3600,
-            )

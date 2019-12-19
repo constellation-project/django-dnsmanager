@@ -164,23 +164,6 @@ class CanonicalNameRecord(Record):
     def __str__(self):
         return f"{self.name} {self.ttl} {self.dns_class} CNAME {self.c_name}"
 
-    def save(self, *args, **kwargs):
-        cnames = Record.objects.filter(
-            zone=self.zone, dns_class=self.dns_class, name=self.name)
-        if cnames and any(cname.pk == self.pk for cname in cnames):
-            return
-        super().save(*args, **kwargs)
-
-    def clean(self):
-        super().clean()
-
-        # Verify that the CNAME is the only record for a name
-        cnames = Record.objects.filter(
-            zone=self.zone, dns_class=self.dns_class, name=self.name)
-        if cnames and any(cname.pk == self.pk for cname in cnames):
-            raise ValidationError(_("A CNAME must be the only record for a "
-                                    "name."))
-
     class Meta:
         verbose_name = _("CNAME record")
         verbose_name_plural = _("CNAME records")
