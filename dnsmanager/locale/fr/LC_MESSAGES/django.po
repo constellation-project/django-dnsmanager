@@ -1,0 +1,407 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-12-19 10:23+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: apps.py:7
+msgid "Domain Name System manager"
+msgstr "Gestion du DNS"
+
+#: models.py:26 models.py:74
+msgid "name"
+msgstr "nom"
+
+#: models.py:31
+msgid "slug"
+msgstr "slug"
+
+#: models.py:32
+#, python-brace-format
+msgid "This zone will be accessible at /dns/{slug}/."
+msgstr "Cette zone sera accessible à /dns/{slug}/."
+
+#: models.py:42 models.py:69
+msgid "zone"
+msgstr "zone"
+
+#: models.py:43
+msgid "zones"
+msgstr "zones"
+
+#: models.py:60
+msgid "IN (Internet)"
+msgstr "IN (Internet)"
+
+#: models.py:61
+msgid "CS (CSNET, obsolete)"
+msgstr "CS (CSNET, obsolète)"
+
+#: models.py:62
+msgid "CH (CHAOS)"
+msgstr "CH (CHAOS)"
+
+#: models.py:63
+msgid "HS (Hesiod)"
+msgstr "HS (Hesiod)"
+
+#: models.py:70
+msgid "This record will be applied on that zone."
+msgstr "Cet enregistrement sera appliqué sur cette zone."
+
+#: models.py:76
+msgid "The domain name for which this record is valid, ending in a dot."
+msgstr ""
+"Le nom de domaine pour lequel cet enregistrement est valide, se terminant "
+"par un point."
+
+#: models.py:83
+msgid "class"
+msgstr "catégorie"
+
+#: models.py:84
+msgid "You shouldn't need anything else than IN."
+msgstr "Vous ne devriez pas avoir besoin d'autre chose que IN."
+
+#: models.py:89
+msgid "Time To Live"
+msgstr "Durée de vie"
+
+#: models.py:90
+msgid "Limits the lifetime of this record."
+msgstr "Limite la durée de vie (TTL) de cet enregistrement."
+
+#: models.py:103
+msgid "record"
+msgstr "enregistrement"
+
+#: models.py:104
+msgid "records"
+msgstr "enregistrements"
+
+#: models.py:116
+msgid "IPv4 address"
+msgstr "adresse IPv4"
+
+#: models.py:123
+msgid "A record"
+msgstr "enregistrement A"
+
+#: models.py:124
+msgid "A records"
+msgstr "enregistrements A"
+
+#: models.py:138
+msgid "IPv6 address"
+msgstr "adresse IPv6"
+
+#: models.py:145
+msgid "AAAA record"
+msgstr "enregistrement AAAA"
+
+#: models.py:146
+msgid "AAAA records"
+msgstr "enregistrements AAAA"
+
+#: models.py:160
+msgid "canonical name"
+msgstr "nom canonique"
+
+#: models.py:161
+msgid "This domain name will alias to this canonical name."
+msgstr "Ce nom de domaine sera un alias à ce nom canonique."
+
+#: models.py:181
+msgid "A CNAME must be the only record for a name."
+msgstr "Un nom CNAME doit être le seul enregistrement d'un nom."
+
+#: models.py:185
+msgid "CNAME record"
+msgstr "enregistrement CNAME"
+
+#: models.py:186
+msgid "CNAME records"
+msgstr "enregistrements CNAME"
+
+#: models.py:198
+msgid "issue"
+msgstr ""
+
+#: models.py:199
+msgid "issue wildcard"
+msgstr ""
+
+#: models.py:200
+msgid "Incident object description exchange format"
+msgstr ""
+
+#: models.py:208
+msgid "flags"
+msgstr "drapeaux"
+
+#: models.py:213
+msgid "tag"
+msgstr "étiquette"
+
+#: models.py:217
+msgid "value"
+msgstr "valeur"
+
+#: models.py:225
+msgid "CAA record"
+msgstr "enregistrement CAA"
+
+#: models.py:226
+msgid "CAA records"
+msgstr "enregistrements CAA"
+
+#: models.py:240
+msgid "delegation domain name"
+msgstr "nom de domaine de délégation"
+
+#: models.py:241
+msgid ""
+"This domain name will alias to the entire subtree of that delegation domain."
+msgstr ""
+"Ce nom de domaine sera un alias vers tout le sous-arbre de ce domaine de "
+"délégation."
+
+#: models.py:249
+msgid "DNAME record"
+msgstr "enregistrement DNAME"
+
+#: models.py:250
+msgid "DNAME records"
+msgstr "enregistrements DNAME"
+
+#: models.py:266
+msgid "preference"
+msgstr "préférence"
+
+#: models.py:269
+msgid "exchange server"
+msgstr "serveur d'échange"
+
+#: models.py:278
+msgid "MX record"
+msgstr "enregistrement MX"
+
+#: models.py:279
+msgid "MX records"
+msgstr "enregistrements MX"
+
+#: models.py:291
+msgid "name server"
+msgstr "serveur de noms"
+
+#: models.py:299
+msgid "NS record"
+msgstr "enregistrement NS"
+
+#: models.py:300
+msgid "NS records"
+msgstr "enregistrements NS"
+
+#: models.py:314
+msgid "pointer domain name"
+msgstr ""
+
+#: models.py:320
+msgid "PTR record"
+msgstr "enregistrement PTR"
+
+#: models.py:321
+msgid "PTR records"
+msgstr "enregistrements PTR"
+
+#: models.py:350
+msgid "algorithm"
+msgstr "algorithme"
+
+#: models.py:358
+msgid "type"
+msgstr "type"
+
+#: models.py:362
+msgid "fingerprint"
+msgstr "emprunte"
+
+#: models.py:370
+msgid "SSHFP record"
+msgstr "enregistrement SSHFP"
+
+#: models.py:371
+msgid "SSHFP records"
+msgstr "enregistrements SSHFP"
+
+#: models.py:386
+msgid "master name server"
+msgstr "serveur de nom maître"
+
+#: models.py:387
+msgid "Primary master name server for this zone."
+msgstr "Serveur de nom maître primaire pour cette zone."
+
+#: models.py:390
+msgid "responsible email"
+msgstr "courriel du responsable"
+
+#: models.py:391
+msgid "Email address of the administrator responsible for this zone."
+msgstr "Adresse email de l'administrateur responsable de cette zone."
+
+#: models.py:397
+msgid "serial number"
+msgstr "numéro de série"
+
+#: models.py:398
+msgid ""
+"A slave name server will initiate a zone transfer if this serial is "
+"incremented."
+msgstr ""
+"Un serveur de noms esclave déclenchera un transfert de zone si ce numéro de "
+"série est incrémentée."
+
+#: models.py:402
+msgid "refresh"
+msgstr "rafraîchissement"
+
+#: models.py:403
+msgid ""
+"Number of seconds after which secondary name servers should query the master "
+"to detect zone changes."
+msgstr ""
+"Nombre de secondes après lesquelles les serveurs de noms secondaires doivent "
+"interroger le maître pour détecter les changements de zone."
+
+#: models.py:408
+msgid "retry"
+msgstr "tentative"
+
+#: models.py:409
+msgid ""
+"Number of seconds after which secondary name servers should retry to request "
+"the serial number from the master if the master does not respond."
+msgstr ""
+"Nombre de secondes après lesquelles les serveurs de noms secondaires doivent "
+"réessayer de demander le numéro de série au maître si ce dernier ne répond "
+"pas."
+
+#: models.py:415
+msgid "expire"
+msgstr "expiration"
+
+#: models.py:416
+msgid ""
+"Number of seconds after which secondary name servers should stop answering "
+"request for this zone if the master does not respond."
+msgstr ""
+"Nombre de secondes après lequel les serveurs de noms secondaires doivent "
+"cesser de répondre à la demande pour cette zone si le maître ne répond pas."
+
+#: models.py:422
+msgid "minimum"
+msgstr "minimum"
+
+#: models.py:423
+msgid "Time to live for purposes of negative caching."
+msgstr "Temps de vie pour la mise en cache négative."
+
+#: models.py:433
+msgid "Retry should be lower that refresh."
+msgstr ""
+"L'intervalle des tentatives devrait être inférieur à l'intervalle des "
+"rafraîchissement."
+
+#: models.py:439
+msgid "Expire should be greater that the sum of refresh and retry."
+msgstr ""
+"L'expiration devrait être plus grande que la somme du rafraîchissement et du "
+"réessai."
+
+#: models.py:458
+msgid "SOA record"
+msgstr "enregistrement SOA"
+
+#: models.py:459
+msgid "SOA records"
+msgstr "enregistrements SOA"
+
+#: models.py:475
+msgid "service"
+msgstr "service"
+
+#: models.py:476
+msgid "The symbolic name of the desired service."
+msgstr "Le nom symbolique du service."
+
+#: models.py:480
+msgid "protocol"
+msgstr "protocole"
+
+#: models.py:481
+msgid ""
+"The transport protocol of the desired service, usually either TCP or UDP."
+msgstr "Le protocole de transport du service désiré, généralement TCP ou UDP."
+
+#: models.py:489
+msgid "priority"
+msgstr "priorité"
+
+#: models.py:490
+msgid "The priority of the target host, lower value means more preferred."
+msgstr ""
+"La priorité de l'hôte cible, plus la valeur est faible, plus la préférence "
+"est grande."
+
+#: models.py:498
+msgid "weight"
+msgstr "poids"
+
+#: models.py:499
+msgid ""
+"A relative weight for records with the same priority, higher value means "
+"higher chance of getting picked."
+msgstr ""
+"Un poids relatif pour les enregistrements ayant la même priorité, plus la "
+"valeur est élevée, plus les chances d'être choisi sont élevées."
+
+#: models.py:507
+msgid "port"
+msgstr "port"
+
+#: models.py:510
+msgid "target"
+msgstr "destination"
+
+#: models.py:511
+msgid ""
+"The canonical hostname of the machine providing the service, ending in a dot."
+msgstr ""
+"Le nom d'hôte canonique de la machine fournissant le service, se terminant "
+"par un point."
+
+#: models.py:520
+msgid "SRV record"
+msgstr "enregistrement SRV"
+
+#: models.py:521
+msgid "SRV records"
+msgstr "enregistrements SRV"
+
+#: models.py:538
+msgid "TXT record"
+msgstr "enregistrement TXT"
+
+#: models.py:539
+msgid "TXT records"
+msgstr "enregistrements TXT"
