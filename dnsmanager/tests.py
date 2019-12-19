@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.test import TestCase
 
 from .models import A, AAAA, CNAME, MX, NS, SOA, Zone
@@ -45,7 +46,7 @@ class DnsTestCase(TestCase):
             zone=self.zone,
             name="@",
             mname="silice.crans.org.",
-            rname="root@crans.org.",
+            rname="root@crans.org",
             serial=3654784651,
             refresh=76400,
             retry=5000,
@@ -102,3 +103,45 @@ class DnsTestCase(TestCase):
             str(soa),
             "@ 3600 IN SOA silice.crans.org. root.crans.org. 3654784651 76400 5000 3500000 3600"
         )
+
+    def test_soa_validation_retry(self):
+        """Verify retry >= refresh fails"""
+        with self.assertRaises(ValidationError):
+            SOA.objects.create(
+                zone=self.zone,
+                name="@",
+                mname="silice.crans.org.",
+                rname="root@crans.org",
+                serial=3654784651,
+                refresh=10,
+                retry=50,
+                expire=70,
+                minimum=3600,
+                ttl=3600,
+            )
+
+    def test_soa_validation_expire(self):
+        """Verify expire <= refresh + retry fails"""
+        with self.assertRaises(ValidationError):
+            SOA.objects.create(
+                zone=self.zone,
+                name="@",
+                mname="silice.crans.org.",
+                rname="root@crans.org",
+                serial=3654784651,
+                refresh=10,
+                retry=50,
+                expire=50,
+                minimum=3600,
+                ttl=3600,
+            )
+
+    def test_cname_validation_unique(self):
+        """Verify CNAME uniqueness"""
+        with self.assertRaises(ValidationError):
+            CNAME.objects.create(
+                zone=self.zone,
+                name="demo",
+                c_name="demo.adh.example.com.",
+                ttl=3600,
+            )

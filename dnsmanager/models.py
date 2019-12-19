@@ -90,6 +90,15 @@ class Record(PolymorphicModel):
         help_text=_("Limits the lifetime of this record."),
     )
 
+    def save(self, *args, **kwargs):
+        """
+        Clean model on save
+
+        Without that the model does not get validated
+        """
+        self.full_clean()
+        return super().save(*args, **kwargs)
+
     class Meta:
         verbose_name = _("record")
         verbose_name_plural = _("records")
@@ -164,11 +173,13 @@ class CanonicalNameRecord(Record):
 
     def clean(self):
         super().clean()
+
+        # Verify that the CNAME is the only record for a name
         cnames = Record.objects.filter(
             zone=self.zone, dns_class=self.dns_class, name=self.name)
         if cnames and any(cname.pk == self.pk for cname in cnames):
-            raise ValidationError(
-                _("A CNAME must be the only record for a name."))
+            raise ValidationError(_("A CNAME must be the only record for a "
+                                    "name."))
 
     class Meta:
         verbose_name = _("CNAME record")
@@ -393,7 +404,6 @@ class StartOfAuthorityRecord(Record):
                     "should query the master to detect zone changes."),
         default=86400,
     )
-    # TODO: validate retry < refresh
     retry = models.BigIntegerField(
         verbose_name=_("retry"),
         help_text=_("Number of seconds after which secondary name servers "
@@ -401,7 +411,6 @@ class StartOfAuthorityRecord(Record):
                     "master if the master does not respond."),
         default=7200,
     )
-    # TODO: validate expire > refresh + retry
     expire = models.BigIntegerField(
         verbose_name=_("expire"),
         help_text=_("Number of seconds after which secondary name servers "
@@ -415,6 +424,22 @@ class StartOfAuthorityRecord(Record):
         default=172800,
     )
 
+    def clean(self):
+        super().clean()
+
+        # Validate that retry < refresh
+        if self.retry >= self.refresh:
+            raise ValidationError({
+                'retry': _("Retry should be lower that refresh.")
+            })
+
+        # Validate that expire > refresh + retry
+        if self.expire <= self.refresh + self.retry:
+            raise ValidationError({
+                'expire': _("Expire should be greater that the sum of refresh "
+                            "and retry.")
+            })
+
     def email_to_rname(self):
         """
         Convert email format to domain name format
@@ -426,7 +451,7 @@ class StartOfAuthorityRecord(Record):
     def __str__(self):
         rname = self.email_to_rname()
         return (f"{self.name} {self.ttl} {self.dns_class} SOA {self.mname} "
-                f"{rname} {self.serial} {self.refresh} {self.retry} "
+                f"{rname}. {self.serial} {self.refresh} {self.retry} "
                 f"{self.expire} {self.minimum}")
 
     class Meta:
