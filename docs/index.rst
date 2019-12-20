@@ -1,9 +1,8 @@
-Welcome to django-dnsmanager's documentation!
-=============================================
+.. include:: ../README.rst
 
 .. toctree::
    :maxdepth: 4
-   :caption: Contents:
+   :caption: Contents
 
    models
    views
