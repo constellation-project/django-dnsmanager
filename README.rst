@@ -20,6 +20,17 @@ The following lines creates a Python3 virtualenv and installs
    $ source venv/bin/activate
    $ pip install django-dnsmanager
 
+Features
+--------
+
+  * Polymorphic models based on
+    [Django Polymorphic](https://github.com/django-polymorphic/django-polymorphic) ;
+  * Integration with Django Contrib Admin and AdminDocs ;
+  * Integration with Django Rest Framework ;
+
+This app targets Django 1.11 (current Debian version), 2.2 (last LTS) and 3.0.
+It runs on Python 3.6 and Python 3.7.
+
 Running a demo project
 ----------------------
 
