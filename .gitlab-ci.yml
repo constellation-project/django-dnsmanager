@@ -26,3 +26,8 @@ linters:
   image: python:3.6
   stage: quality-assurance
   script: tox -e linters
+
+docs:
+  image: python:3.6
+  stage: quality-assurance
+  script: tox -e docs
