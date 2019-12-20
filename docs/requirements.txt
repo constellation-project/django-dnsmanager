@@ -1,1 +1,2 @@
 sphinxcontrib-django == 0.5
+rest_framework == 3.9.0
