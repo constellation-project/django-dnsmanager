@@ -32,14 +32,15 @@ if not settings.configured:
         },
         TEST_RUNNER="django.test.runner.DiscoverRunner",
         INSTALLED_APPS=(
-            "django.contrib.auth",
-            "django.contrib.contenttypes",
-            "django.contrib.messages",
-            "django.contrib.sessions",
-            "django.contrib.sites",
-            "django.contrib.admin",
-            "polymorphic",
-            "dnsmanager",
+            'django.contrib.admin',
+            'django.contrib.auth',
+            'django.contrib.contenttypes',
+            'django.contrib.sessions',
+            'django.contrib.sites',
+            'django.contrib.messages',
+            'polymorphic',
+            'rest_framework',
+            'dnsmanager',
         ),
         MIDDLEWARE=(
             "django.middleware.common.CommonMiddleware",
@@ -48,7 +49,7 @@ if not settings.configured:
             "django.contrib.auth.middleware.AuthenticationMiddleware",
             "django.contrib.messages.middleware.MessageMiddleware",
         ),
-        SITE_ID=3,
+        SITE_ID=1,
         TEMPLATES=[
             {
                 "BACKEND": "django.template.backends.django.DjangoTemplates",
@@ -70,7 +71,7 @@ if not settings.configured:
                 },
             }
         ],
-        ROOT_URLCONF=None,
+        ROOT_URLCONF='dnsmanager.urls',
     )
 
 

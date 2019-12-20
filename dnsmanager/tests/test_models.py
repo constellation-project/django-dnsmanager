@@ -1,14 +1,14 @@
 from django.core.exceptions import ValidationError
 from django.test import TestCase
 
-from .models import A, AAAA, CNAME, MX, NS, SOA, Zone
+from ..models import A, AAAA, CNAME, MX, NS, SOA, Zone
 
 """
 Test DNS app against some records from Cr@ns.
 """
 
 
-class DnsTestCase(TestCase):
+class ModelsTestCase(TestCase):
     def setUp(self):
         self.zone = Zone.objects.create(name="crans.org")
         A.objects.create(
