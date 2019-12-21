@@ -1,3 +1,6 @@
 # Zone: {{ object.name }}
+
+$ORIGIN {{ object.name }}.
+
 {% for record in object.record_set.all %}{{ record }}
 {% endfor %}
