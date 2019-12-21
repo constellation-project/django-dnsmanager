@@ -1,7 +1,7 @@
 from django.core.exceptions import ValidationError
 from django.test import TestCase
 
-from ..models import A, AAAA, CNAME, MX, NS, SOA, Zone
+from ..models import A, AAAA, CNAME, DNAME, MX, NS, SOA, Zone
 
 """
 Test DNS app against some records from Cr@ns.
@@ -11,6 +11,7 @@ Test DNS app against some records from Cr@ns.
 class ModelsTestCase(TestCase):
     def setUp(self):
         self.zone = Zone.objects.create(name="crans.org")
+        self.delegation = Zone.objects.create(name="crans.fr")
         A.objects.create(
             zone=self.zone,
             name="@",
@@ -27,6 +28,12 @@ class ModelsTestCase(TestCase):
             zone=self.zone,
             name="demo",
             c_name="demo.adh.crans.org.",
+            ttl=3600,
+        )
+        DNAME.objects.create(
+            zone=self.delegation,
+            name="@",
+            d_name="crans.org.",
             ttl=3600,
         )
         MX.objects.create(
@@ -78,6 +85,14 @@ class ModelsTestCase(TestCase):
         self.assertEqual(
             str(cname),
             "demo 3600 IN CNAME demo.adh.crans.org."
+        )
+
+    def test_dname(self):
+        """Verify DNAME"""
+        dname = DNAME.objects.get(d_name="crans.org.", zone=self.delegation)
+        self.assertEqual(
+            str(dname),
+            "@ 3600 IN DNAME crans.org."
         )
 
     def test_mx(self):
