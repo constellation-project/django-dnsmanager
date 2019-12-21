@@ -45,6 +45,14 @@ class Zone(models.Model):
         """
         return self.name
 
+    def save(self, *args, **kwargs):
+        """
+        Default value for slug
+        """
+        if not self.slug:
+            self.slug = self.name.replace(".", "")
+        super(Zone, self).save(*args, **kwargs)
+
     class Meta:
         verbose_name = _("zone")
         verbose_name_plural = _("zones")
