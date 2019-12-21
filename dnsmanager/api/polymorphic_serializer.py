@@ -1,4 +1,4 @@
-from collections import Mapping
+from collections.abc import Mapping
 
 from django.db import models
 from rest_framework import serializers
