@@ -3,6 +3,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator, \
     RegexValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.utils.text import slugify
 from polymorphic.models import PolymorphicModel
 
 # Custom validator to check a domain name
@@ -50,8 +51,8 @@ class Zone(models.Model):
         Default value for slug
         """
         if not self.slug:
-            self.slug = self.name.replace(".", "")
-        super(Zone, self).save(*args, **kwargs)
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = _("zone")
