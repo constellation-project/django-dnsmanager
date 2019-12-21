@@ -1,7 +1,7 @@
-.. image::  https://travis-ci.com/erdnaxe/django-dnsmanager.svg?branch=master
-    :target: http://travis-ci.com/erdnaxe/django-dnsmanager
-.. image:: https://img.shields.io/codecov/c/github/erdnaxe/django-dnsmanager/master.svg
-    :target: https://codecov.io/github/erdnaxe/django-dnsmanager?branch=master
+.. image::  https://travis-ci.com/constellation-project/django-dnsmanager.svg?branch=master
+    :target: http://travis-ci.com/constellation-project/django-dnsmanager
+.. image:: https://img.shields.io/codecov/c/github/constellation-project/django-dnsmanager/master.svg
+    :target: https://codecov.io/github/constellation-project/django-dnsmanager?branch=master
 
 Django DNS manager
 ==================
@@ -24,7 +24,7 @@ Features
 --------
 
 * Polymorphic models based on
-  [Django Polymorphic](https://github.com/django-polymorphic/django-polymorphic) ;
+  `Django Polymorphic <https://github.com/django-polymorphic/django-polymorphic>`_ ;
 * Integration with Django Contrib Admin and AdminDocs ;
 * Integration with Django Rest Framework ;
 * Generation of ready to use zone files.
