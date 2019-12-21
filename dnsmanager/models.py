@@ -2,6 +2,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator, \
     RegexValidator
 from django.db import models
+from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from polymorphic.models import PolymorphicModel
 
@@ -44,6 +45,14 @@ class Zone(models.Model):
         String for autocompletion results and zone admin column
         """
         return self.name
+
+    def save(self, *args, **kwargs):
+        """
+        Default value for slug
+        """
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = _("zone")
