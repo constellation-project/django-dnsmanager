@@ -1,10 +1,7 @@
-.. image::  https://travis-ci.com/constellation-project/django-dnsmanager.svg?branch=master
-    :target: http://travis-ci.com/constellation-project/django-dnsmanager
-.. image:: https://img.shields.io/codecov/c/github/constellation-project/django-dnsmanager/master.svg
-    :target: https://codecov.io/github/constellation-project/django-dnsmanager?branch=master
-
 Django DNS manager
 ==================
+
+|travis| |coverage| |github_version| |pypi_version| |django_version| |doc|
 
 This is a DNS manager Django app.
 
@@ -62,3 +59,21 @@ License
 Django-dnsmanager uses the same license as Django (BSD-like)
 because we believe in open development.
 Please see LICENSE file for more details.
+
+.. |travis| image:: https://img.shields.io/travis/com/constellation-project/django-dnsmanager/master?style=flat-square
+    :target: https://travis-ci.com/constellation-project/django-dnsmanager
+
+.. |coverage| image:: https://img.shields.io/codecov/c/github/constellation-project/django-dnsmanager/master.svg?style=flat-square
+    :target: https://codecov.io/github/constellation-project/django-dnsmanager?branch=master
+
+.. |github_version| image:: https://img.shields.io/github/v/tag/constellation-project/django-dnsmanager?style=flat-square
+    :target: https://github.com/constellation-project/django-dnsmanager/releases/latest
+
+.. |pypi_version| image:: https://img.shields.io/pypi/v/django-dnsmanager?style=flat-square
+    :target: https://pypi.org/project/django-dnsmanager/
+
+.. |django_version| image:: https://img.shields.io/pypi/djversions/django-dnsmanager?style=flat-square
+    :target: https://pypi.org/project/django-dnsmanager/
+
+.. |doc| image:: https://img.shields.io/readthedocs/django-dnsmanager?style=flat-square
+    :target: http://django-dnsmanager.readthedocs.io
