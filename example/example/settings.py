@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 """
-Django settings for django-crans-theme project.
+Django settings for example project.
 """
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)

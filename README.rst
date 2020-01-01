@@ -34,7 +34,7 @@ Running a demo project
 
 We assume this package is installed in your Python 3 environment.
 
-Clone the project and go to ``example_project`` directory.
+Clone the project and go to ``example`` directory.
 
 Now we need to create the database tables and an admin user. Run the
 following and follow the instructions:
