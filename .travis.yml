@@ -37,4 +37,4 @@ deploy:
   username: erdnaxe
   edge: true # opt in to dpl v2
   on:
-    tags: true
+    branch: master
