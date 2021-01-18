@@ -26,7 +26,7 @@ Features
 * Integration with Django Rest Framework ;
 * Generation of ready to use zone files.
 
-This app targets Django 1.11 (current Debian version), 2.2 (last LTS) and 3.1.
+This app targets Django 2.2 (last LTS and current Debian version (from Debian 11 Bullseye)) and 3.1.
 It runs on Python 3.6 to 3.9.
 
 Running a demo project
