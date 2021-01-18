@@ -34,7 +34,7 @@ after_success:
 
 deploy:
   provider: pypi
-  username: erdnaxe
+  username: __token__
   edge: true # opt in to dpl v2
   on:
     branch: master
