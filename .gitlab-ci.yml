@@ -7,11 +7,6 @@ stages:
 before_script:
   - pip install tox
 
-py36-django111:
-  image: python:3.6
-  stage: test
-  script: tox -e py36-django111
-
 py36-django22:
   image: python:3.6
   stage: test
