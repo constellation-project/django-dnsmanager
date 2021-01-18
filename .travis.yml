@@ -32,6 +32,9 @@ after_success:
   - coverage xml -i
   - codecov
 
-branches:
-  only:
-    - master
+deploy:
+  provider: pypi
+  username: erdnaxe
+  edge: true # opt in to dpl v2
+  on:
+    tags: true
