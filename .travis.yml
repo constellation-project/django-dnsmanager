@@ -1,20 +1,35 @@
 dist: bionic
 language: python
 
+stages:
+  - test
+  - code_quality
+  - docs
+  - deploy
+
 jobs:
   include:
     # Django 2.2: Python 3.6, 3.7 or 3.8
-    - { env: TOXENV=py36-django22, python: 3.6 }
-    - { env: TOXENV=py37-django22, python: 3.7 }
-    - { env: TOXENV=py38-django22, python: 3.8 }
+    - { stage: test, script: tox, env: TOXENV=py36-django22, python: 3.6 }
+    - { stage: test, script: tox, env: TOXENV=py37-django22, python: 3.7 }
+    - { stage: test, script: tox, env: TOXENV=py38-django22, python: 3.8 }
     # Django 3.1: Python 3.7, 3.8 or 3.9
-    - { env: TOXENV=py37-django31, python: 3.7 }
-    - { env: TOXENV=py38-django31, python: 3.8 }
-    - { env: TOXENV=py39-django31, python: 3.9 }
+    - { stage: test, script: tox, env: TOXENV=py37-django31, python: 3.7 }
+    - { stage: test, script: tox, env: TOXENV=py38-django31, python: 3.8 }
+    - { stage: test, script: tox, env: TOXENV=py39-django31, python: 3.9 }
     # Lint: Python 3.6
-    - { env: TOXENV=linters, python: 3.6 }
+    - { stage: code_quality, script: tox, env: TOXENV=linters, python: 3.6 }
     # Test docs
-    - { env: TOXENV=docs, python: 3.6 }
+    - { stage: docs, script: tox, env: TOXENV=docs, python: 3.6 }
+    # Deploy
+    - stage: deploy
+      script: skip
+      deploy:
+        provider: pypi
+        username: __token__
+        edge: true # opt in to dpl v2
+        on:
+          branch: master
 
 cache:
   directories:
@@ -25,16 +40,6 @@ install:
   - pip install --upgrade pip wheel setuptools
   - pip install codecov coverage tox
 
-script:
-  - tox
-
 after_success:
   - coverage xml -i
   - codecov
-
-deploy:
-  provider: pypi
-  username: __token__
-  edge: true # opt in to dpl v2
-  on:
-    branch: master
