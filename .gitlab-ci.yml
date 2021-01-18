@@ -22,10 +22,25 @@ py37-django22:
   stage: test
   script: tox -e py37-django22
 
-py37-django30:
+py37-django31:
   image: python:3.7
   stage: test
-  script: tox -e py37-django30
+  script: tox -e py37-django31
+
+py38-django22:
+  image: python:3.8
+  stage: test
+  script: tox -e py38-django22
+
+py38-django31:
+  image: python:3.8
+  stage: test
+  script: tox -e py38-django31
+
+py39-django31:
+  image: python:3.9
+  stage: test
+  script: tox -e py39-django31
 
 linters:
   image: python:3.6
